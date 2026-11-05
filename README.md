@@ -39,7 +39,10 @@ From the project root, with the existing virtual environment:
 - `app/routes/health.py`: `GET /health` route.
 - `app/database/base.py`: SQLAlchemy declarative base.
 - `app/database/session.py`: Engine, session factory, and `get_db` dependency. Reads `DATABASE_URL` from `.env`.
+- `app/models/`: SQLAlchemy models for users, glucose readings, and blood pressure readings.
 - `tests/test_database.py`: Database connection tests.
+- `tests/test_models.py`: Model, relationship, and unique-email tests.
+- `tests/test_health.py`: Health endpoint test.
 - `requirements.txt`: Pinned Python dependencies. Direct packages are FastAPI, Uvicorn, SQLAlchemy, python-dotenv, and pytest.
 - `.env.example`: Placeholder environment variables. Copy it to `.env` locally.
 - `.gitignore`: Ignores the virtual environment, environment files, bytecode, pytest cache, and SQLite database files.
@@ -53,4 +56,4 @@ Local-only items that are not part of the application source:
 ## Notes
 
 - Do not commit secrets or environment files to Git.
-- Patient models, medical record models, and authentication are not implemented yet.
+- Authentication and API routes for these records are not implemented yet.
