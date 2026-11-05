@@ -5,7 +5,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.core.errors import register_error_handlers
-from app.routes import auth, blood_pressure, glucose, health, stats
+from app.routes import auth, blood_pressure, charts, glucose, health, reports, stats
 
 STATIC_DIR = Path(__file__).resolve().parent / "app" / "static"
 
@@ -18,6 +18,8 @@ app.include_router(auth.router)
 app.include_router(glucose.router)
 app.include_router(blood_pressure.router)
 app.include_router(stats.router)
+app.include_router(charts.router)
+app.include_router(reports.router)
 
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 

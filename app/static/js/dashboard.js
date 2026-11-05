@@ -46,6 +46,16 @@
       return { status: response.status, data: data };
     }
   
+    // Like fetch, but sends the login token. Returns null if the login expired.
+    async function authorizedFetch(url) {
+      var response = await fetch(url, { headers: { Authorization: "Bearer " + token } });
+      if (response.status === 401) {
+        goToLogin();
+        return null;
+      }
+      return response;
+    }
+  
     function pad(number) {
       return String(number).padStart(2, "0");
     }
@@ -69,6 +79,37 @@
       button.textContent = label;
       button.addEventListener("click", onClick);
       return button;
+    }
+  
+    // ---------------------------------------------------------------
+    // Extra features (charts and the PDF report live in their own files)
+    // ---------------------------------------------------------------
+    window.MediTrackDashboard = {
+      getRange: currentRange,
+      authorizedFetch: authorizedFetch
+    };
+  
+    function loadScript(src) {
+      return new Promise(function (resolve) {
+        var script = document.createElement("script");
+        script.src = src;
+        script.onload = function () { resolve(true); };
+        script.onerror = function () { resolve(false); };
+        document.head.appendChild(script);
+      });
+    }
+  
+    var chartsReady = loadScript("/static/js/charts.js");
+    loadScript("/static/js/report.js");
+  
+    async function refreshCharts(range) {
+      var ready = await chartsReady;
+      if (!ready || !window.MediTrackCharts) { return; }
+      try {
+        await window.MediTrackCharts.update(api, range);
+      } catch (error) {
+        // The statistics above still work if the charts fail.
+      }
     }
   
     // ---------------------------------------------------------------
@@ -141,6 +182,7 @@
       clearRangeMessage();
       var range = currentRange();
       if (!range) { return; }
+      refreshCharts(range);
       var query = "?start=" + encodeURIComponent(range.start.toISOString()) +
         "&end=" + encodeURIComponent(range.end.toISOString());
   
