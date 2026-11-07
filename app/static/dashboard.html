@@ -1,177 +1,451 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MediTrack AI - Dashboard</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/static/css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f8fc">
+    <title>Dashboard | MediTrack AI</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <link rel="stylesheet" href="/static/css/dashboard.css">
+    <link rel="stylesheet" href="/static/css/chat.css">
 </head>
-<body class="bg-light">
-  <nav class="navbar navbar-dark bg-primary">
-    <div class="container">
-      <span class="navbar-brand mb-0 h1">MediTrack AI</span>
-      <button id="logout-button" type="button" class="btn btn-outline-light btn-sm">Log out</button>
-    </div>
-  </nav>
+<body class="dashboard-body">
 
-  <main class="container py-4">
-    <div id="message" class="alert alert-danger d-none" role="alert"></div>
+    <div class="dashboard-layout">
 
-    <h1 class="h4">Welcome, <span id="user-name">...</span></h1>
-    <p class="text-muted">Signed in as <span id="user-email">...</span></p>
+        <!-- Sidebar -->
+        <aside class="dashboard-sidebar">
+            <a href="/dashboard" class="sidebar-brand text-decoration-none">
+                <span class="sidebar-brand-icon">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                        <rect x="2" y="2" width="44" height="44" rx="14" fill="currentColor"/>
+                        <path d="M24 12v24M12 24h24" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span>MediTrack<span class="brand-ai"> AI</span></span>
+            </a>
 
-    <div class="card mb-3">
-      <div class="card-body">
-        <h2 class="h6">Statistics range</h2>
-        <div class="row g-2 align-items-end">
-          <div class="col-sm-3">
-            <label for="range-preset" class="form-label small mb-1">Period</label>
-            <select id="range-preset" class="form-select form-select-sm">
-              <option value="today">Today</option>
-              <option value="7" selected>Last 7 days</option>
-              <option value="30">Last 30 days</option>
-              <option value="custom">Custom</option>
-            </select>
-          </div>
-          <div class="col-sm-3 d-none" id="custom-from-wrap">
-            <label for="range-from" class="form-label small mb-1">From</label>
-            <input id="range-from" type="date" class="form-control form-control-sm">
-          </div>
-          <div class="col-sm-3 d-none" id="custom-to-wrap">
-            <label for="range-to" class="form-label small mb-1">To</label>
-            <input id="range-to" type="date" class="form-control form-control-sm">
-          </div>
-          <div class="col-sm-3 d-none" id="custom-apply-wrap">
-            <button id="range-apply" type="button" class="btn btn-outline-primary btn-sm">Apply</button>
-          </div>
-        </div>
-        <div id="range-message" class="alert d-none mt-2 mb-0" role="alert"></div>
-      </div>
-    </div>
+            <div class="sidebar-section-label">WORKSPACE</div>
 
-    <div class="row g-3 mt-1">
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <h2 class="h6">Blood glucose</h2>
+            <nav class="sidebar-navigation" aria-label="Main navigation">
+                <a href="#overview" class="sidebar-link active">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+                        <rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                    </svg>
+                    <span>Overview</span>
+                </a>
 
-            <div class="border rounded p-2 mb-3 bg-white small" id="glucose-stats">Loading statistics...</div>
+                <a href="#glucose-section" class="sidebar-link">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 3s7 7.2 7 12a7 7 0 0 1-14 0c0-4.8 7-12 7-12Z"/>
+                        <path d="M9 15a3 3 0 0 0 3 3"/>
+                    </svg>
+                    <span>Glucose</span>
+                </a>
 
-            <div id="glucose-message" class="alert d-none" role="alert"></div>
+                <a href="#bp-section" class="sidebar-link">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 12h4l2.5-6 5 12 2.5-6h4"/>
+                    </svg>
+                    <span>Blood pressure</span>
+                </a>
 
-            <form id="glucose-form" novalidate>
-              <input type="hidden" id="glucose-id">
-              <div class="row g-2">
-                <div class="col-sm-3">
-                  <label for="glucose-value" class="form-label small mb-1">Glucose value</label>
-                  <input id="glucose-value" type="number" step="0.01" min="0.01" max="1000" class="form-control" required>
+                <a href="#reports-section" class="sidebar-link">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/>
+                        <path d="M14 2v6h6M8 13h8M8 17h8"/>
+                    </svg>
+                    <span>Reports</span>
+                </a>
+
+                <!-- About the developer -->
+                <a href="/about" class="sidebar-link">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                         stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+                         aria-hidden="true">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M5 21a7 7 0 0 1 14 0"/>
+                    </svg>
+                    <span>About the developer</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-help-card">
+                    <div class="help-icon">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <circle cx="12" cy="12" r="9"/>
+                            <path d="M9.5 9a2.5 2.5 0 1 1 4.2 1.8c-1.1 1-1.7 1.4-1.7 2.7M12 17h.01"/>
+                        </svg>
+                    </div>
+                    <strong>Your health, organized.</strong>
+                    <p>Keep your health records in one place.</p>
                 </div>
-                <div class="col-sm-3">
-                  <label for="glucose-type" class="form-label small mb-1">When</label>
-                  <select id="glucose-type" class="form-select">
-                    <option value="fasting">Fasting</option>
-                    <option value="before_meal">Before meal</option>
-                    <option value="after_meal">After meal</option>
-                  </select>
-                </div>
-                <div class="col-sm-3">
-                  <label for="glucose-time" class="form-label small mb-1">Date and time</label>
-                  <input id="glucose-time" type="datetime-local" class="form-control">
-                </div>
-                <div class="col-sm-3">
-                  <label for="glucose-notes" class="form-label small mb-1">Notes (optional)</label>
-                  <input id="glucose-notes" type="text" maxlength="500" class="form-control">
-                </div>
-              </div>
-              <div class="form-text">Leave the date and time empty to use the current time.</div>
-              <div class="mt-2">
-                <button id="glucose-submit" type="submit" class="btn btn-primary btn-sm">Add reading</button>
-                <button id="glucose-cancel" type="button" class="btn btn-outline-secondary btn-sm d-none">Cancel edit</button>
-              </div>
-            </form>
 
-            <div class="table-responsive mt-3">
-              <table class="table table-sm align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>Date and time</th>
-                    <th>Value</th>
-                    <th>When</th>
-                    <th>Notes</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody id="glucose-rows"></tbody>
-              </table>
+                <div class="sidebar-footer">
+                    <span class="status-dot"></span>
+                    <span>Personal health workspace</span>
+                </div>
             </div>
-            <p id="glucose-empty" class="text-muted small mt-2 mb-0 d-none">No readings yet.</p>
-          </div>
-        </div>
-      </div>
+        </aside>
 
-      <div class="col-12">
-        <div class="card">
-          <div class="card-body">
-            <h2 class="h6">Blood pressure</h2>
+        <!-- Main area -->
+        <main class="dashboard-main">
 
-            <div class="border rounded p-2 mb-3 bg-white small" id="bp-stats">Loading statistics...</div>
+            <!-- Top bar -->
+            <header class="dashboard-topbar">
+                <div class="topbar-left">
+                    <span class="topbar-context">Personal workspace</span>
+                    <span class="topbar-divider">/</span>
+                    <span class="topbar-current">Dashboard</span>
+                </div>
 
-            <div id="bp-message" class="alert d-none" role="alert"></div>
+                <div class="topbar-right">
+                    <div class="user-identity">
+                        <div class="user-avatar" aria-hidden="true">MT</div>
+                        <div class="user-identity-text">
+                            <span class="user-identity-name" id="user-name">Loading...</span>
+                            <span class="user-identity-email" id="user-email"></span>
+                        </div>
+                    </div>
 
-            <form id="bp-form" novalidate>
-              <input type="hidden" id="bp-id">
-              <div class="row g-2">
-                <div class="col-sm-2">
-                  <label for="bp-systolic" class="form-label small mb-1">Systolic</label>
-                  <input id="bp-systolic" type="number" step="1" min="1" max="300" class="form-control" required>
+                    <button type="button" id="logout-button" class="logout-button">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M10 17l5-5-5-5M15 12H3"/>
+                            <path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/>
+                        </svg>
+                        <span>Logout</span>
+                    </button>
                 </div>
-                <div class="col-sm-2">
-                  <label for="bp-diastolic" class="form-label small mb-1">Diastolic</label>
-                  <input id="bp-diastolic" type="number" step="1" min="1" max="300" class="form-control" required>
-                </div>
-                <div class="col-sm-2">
-                  <label for="bp-pulse" class="form-label small mb-1">Pulse (optional)</label>
-                  <input id="bp-pulse" type="number" step="1" min="1" max="300" class="form-control">
-                </div>
-                <div class="col-sm-3">
-                  <label for="bp-time" class="form-label small mb-1">Date and time</label>
-                  <input id="bp-time" type="datetime-local" class="form-control">
-                </div>
-                <div class="col-sm-3">
-                  <label for="bp-notes" class="form-label small mb-1">Notes (optional)</label>
-                  <input id="bp-notes" type="text" maxlength="500" class="form-control">
-                </div>
-              </div>
-              <div class="form-text">Systolic must be higher than diastolic. Leave the date and time empty to use the current time.</div>
-              <div class="mt-2">
-                <button id="bp-submit" type="submit" class="btn btn-primary btn-sm">Add reading</button>
-                <button id="bp-cancel" type="button" class="btn btn-outline-secondary btn-sm d-none">Cancel edit</button>
-              </div>
-            </form>
+            </header>
 
-            <div class="table-responsive mt-3">
-              <table class="table table-sm align-middle mb-0">
-                <thead>
-                  <tr>
-                    <th>Date and time</th>
-                    <th>Systolic</th>
-                    <th>Diastolic</th>
-                    <th>Pulse</th>
-                    <th>Notes</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody id="bp-rows"></tbody>
-              </table>
+            <div class="dashboard-content" id="overview">
+
+                <!-- Welcome -->
+                <section class="welcome-section">
+                    <div>
+                        <div class="eyebrow">
+                            <span class="eyebrow-dot"></span>
+                            YOUR HEALTH OVERVIEW
+                        </div>
+                        <h1>Your health overview</h1>
+                        <p>Review your recorded health measurements and keep track of your history.</p>
+                    </div>
+
+                    <div class="welcome-decoration" aria-hidden="true">
+                        <div class="welcome-decoration-circle circle-one"></div>
+                        <div class="welcome-decoration-circle circle-two"></div>
+                        <svg viewBox="0 0 100 100">
+                            <path d="M50 12v76M12 50h76" stroke="currentColor" stroke-width="9" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                </section>
+
+                <!-- Global message -->
+                <div id="message" class="dashboard-global-message" role="status" aria-live="polite"></div>
+
+                <!-- Date range -->
+                <section class="dashboard-panel range-panel" id="reports-section">
+                    <div class="panel-heading range-heading">
+                        <div class="panel-heading-main">
+                            <div class="panel-icon panel-icon-blue">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <rect x="3" y="5" width="18" height="16" rx="2"/>
+                                    <path d="M16 3v4M8 3v4M3 10h18"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2>Reporting period</h2>
+                                <p>Choose the period for your dashboard data.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="range-controls">
+                        <div class="range-field range-preset-field">
+                            <label for="range-preset">Date range</label>
+                            <select id="range-preset" class="form-select">
+                                <option value="today">Today</option>
+                                <option value="7">Last 7 days</option>
+                                <option value="30" selected>Last 30 days</option>
+                                <option value="custom">Custom range</option>
+                            </select>
+                        </div>
+
+                        <div id="custom-from-wrap" class="range-field custom-range-field" hidden>
+                            <label for="range-from">Start date</label>
+                            <input type="date" id="range-from" class="form-control">
+                        </div>
+
+                        <div id="custom-to-wrap" class="range-field custom-range-field" hidden>
+                            <label for="range-to">End date</label>
+                            <input type="date" id="range-to" class="form-control">
+                        </div>
+
+                        <div id="custom-apply-wrap" class="range-action-field" hidden>
+                            <button type="button" id="range-apply" class="btn btn-primary range-apply-button">
+                                Apply range
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="range-message" class="range-message" role="status" aria-live="polite"></div>
+                </section>
+
+                <!-- Glucose section -->
+                <section class="dashboard-panel health-panel" id="glucose-section">
+                    <div class="panel-heading">
+                        <div class="panel-heading-main">
+                            <div class="panel-icon panel-icon-teal">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 3s7 7.2 7 12a7 7 0 0 1-14 0c0-4.8 7-12 7-12Z"/>
+                                    <path d="M9 15a3 3 0 0 0 3 3"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2>Blood glucose</h2>
+                                <p>Manage and review your glucose readings.</p>
+                            </div>
+                        </div>
+                        <span class="section-tag tag-teal">Glucose tracking</span>
+                    </div>
+
+                    <div id="glucose-message" class="section-message" role="status" aria-live="polite"></div>
+
+                    <div id="glucose-stats" class="stats-container">
+                        <div class="stats-placeholder">
+                            <span class="placeholder-line"></span>
+                            <span class="placeholder-line short"></span>
+                        </div>
+                    </div>
+
+                    <div class="record-entry-area">
+                        <div class="subsection-heading">
+                            <div>
+                                <h3>Add or update a reading</h3>
+                                <p>Enter the measurement details below.</p>
+                            </div>
+                        </div>
+
+                        <form id="glucose-form" class="record-form">
+                            <input type="hidden" id="glucose-id">
+
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="glucose-value">Glucose value</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" step="any" min="0.1" id="glucose-value"
+                                               class="form-control" placeholder="e.g. 110" required>
+                                        <span>mg/dL</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="glucose-type">Reading type</label>
+                                    <select id="glucose-type" class="form-select" required>
+                                        <option value="fasting">Fasting</option>
+                                        <option value="before_meal">Before meal</option>
+                                        <option value="after_meal">After meal</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="glucose-time">Date and time</label>
+                                    <input type="datetime-local" id="glucose-time" class="form-control" required>
+                                </div>
+
+                                <div class="form-field form-field-wide">
+                                    <label for="glucose-notes">Notes <span class="optional-label">Optional</span></label>
+                                    <textarea id="glucose-notes" class="form-control" rows="2"
+                                              placeholder="Add any notes about this reading"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" id="glucose-submit" class="btn btn-primary primary-action">
+                                    Save reading
+                                </button>
+                                <button type="button" id="glucose-cancel" class="btn btn-light secondary-action" hidden>
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="records-area">
+                        <div class="subsection-heading records-heading">
+                            <div>
+                                <h3>Glucose history</h3>
+                                <p>Your recorded measurements for the selected period.</p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive records-table-wrap">
+                            <table class="table records-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date and time</th>
+                                        <th>Value</th>
+                                        <th>Type</th>
+                                        <th>Notes</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="glucose-rows"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="glucose-empty" class="empty-state" hidden>
+                            <div class="empty-state-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 3s7 7.2 7 12a7 7 0 0 1-14 0c0-4.8 7-12 7-12Z"/>
+                                </svg>
+                            </div>
+                            <strong>No glucose readings yet</strong>
+                            <p>Your saved readings will appear here.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Blood pressure section -->
+                <section class="dashboard-panel health-panel" id="bp-section">
+                    <div class="panel-heading">
+                        <div class="panel-heading-main">
+                            <div class="panel-icon panel-icon-purple">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 12h4l2.5-6 5 12 2.5-6h4"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2>Blood pressure</h2>
+                                <p>Manage and review your blood-pressure readings.</p>
+                            </div>
+                        </div>
+                        <span class="section-tag tag-purple">BP tracking</span>
+                    </div>
+
+                    <div id="bp-message" class="section-message" role="status" aria-live="polite"></div>
+
+                    <div id="bp-stats" class="stats-container">
+                        <div class="stats-placeholder">
+                            <span class="placeholder-line"></span>
+                            <span class="placeholder-line short"></span>
+                        </div>
+                    </div>
+
+                    <div class="record-entry-area">
+                        <div class="subsection-heading">
+                            <div>
+                                <h3>Add or update a reading</h3>
+                                <p>Enter the blood-pressure measurement details.</p>
+                            </div>
+                        </div>
+
+                        <form id="bp-form" class="record-form">
+                            <input type="hidden" id="bp-id">
+
+                            <div class="form-grid">
+                                <div class="form-field">
+                                    <label for="bp-systolic">Systolic</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" min="1" id="bp-systolic" class="form-control"
+                                               placeholder="e.g. 120" required>
+                                        <span>mmHg</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="bp-diastolic">Diastolic</label>
+                                    <div class="input-with-unit">
+                                        <input type="number" min="1" id="bp-diastolic" class="form-control"
+                                               placeholder="e.g. 80" required>
+                                        <span>mmHg</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="bp-pulse">Pulse <span class="optional-label">Optional</span></label>
+                                    <div class="input-with-unit">
+                                        <input type="number" min="1" id="bp-pulse" class="form-control"
+                                               placeholder="e.g. 72">
+                                        <span>bpm</span>
+                                    </div>
+                                </div>
+
+                                <div class="form-field">
+                                    <label for="bp-time">Date and time</label>
+                                    <input type="datetime-local" id="bp-time" class="form-control" required>
+                                </div>
+
+                                <div class="form-field form-field-wide">
+                                    <label for="bp-notes">Notes <span class="optional-label">Optional</span></label>
+                                    <textarea id="bp-notes" class="form-control" rows="2"
+                                              placeholder="Add any notes about this reading"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" id="bp-submit" class="btn btn-primary primary-action">
+                                    Save reading
+                                </button>
+                                <button type="button" id="bp-cancel" class="btn btn-light secondary-action" hidden>
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="records-area">
+                        <div class="subsection-heading records-heading">
+                            <div>
+                                <h3>Blood-pressure history</h3>
+                                <p>Your recorded measurements for the selected period.</p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive records-table-wrap">
+                            <table class="table records-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date and time</th>
+                                        <th>Systolic</th>
+                                        <th>Diastolic</th>
+                                        <th>Pulse</th>
+                                        <th>Notes</th>
+                                        <th class="text-end">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bp-rows"></tbody>
+                            </table>
+                        </div>
+
+                        <div id="bp-empty" class="empty-state" hidden>
+                            <div class="empty-state-icon">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M3 12h4l2.5-6 5 12 2.5-6h4"/>
+                                </svg>
+                            </div>
+                            <strong>No blood-pressure readings yet</strong>
+                            <p>Your saved readings will appear here.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="dashboard-footer">
+                    <span>© 2026 MediTrack AI</span>
+                    <span>For personal record tracking and informational purposes.</span>
+                </footer>
+
             </div>
-            <p id="bp-empty" class="text-muted small mt-2 mb-0 d-none">No readings yet.</p>
-          </div>
-        </div>
-      </div>
+        </main>
     </div>
-  </main>
 
-  <script src="/static/js/dashboard.js"></script>
+    <script src="/static/js/dashboard.js"></script>
 </body>
 </html>

@@ -1,0 +1,103 @@
+/* MediTrack AI design system: shared colours, type, buttons and form styles. */
+:root {
+    --mt-primary: #1d62c8;
+    --mt-primary-dark: #154a99;
+    --mt-primary-soft: #e8f0fc;
+    --mt-teal: #0f9d94;
+    --mt-teal-soft: #e2f5f3;
+    --mt-ink: #16263a;
+    --mt-muted: #5b6b7f;
+    --mt-border: #dde5ee;
+    --mt-surface: #ffffff;
+    --mt-bg: #f4f8fc;
+    --mt-danger: #c93a3a;
+    --mt-warning-bg: #fff8e6;
+    --mt-warning-border: #f1e0ae;
+    --mt-warning-ink: #6f5300;
+  
+    --mt-radius-sm: 8px;
+    --mt-radius: 12px;
+    --mt-radius-lg: 18px;
+  
+    --mt-shadow-sm: 0 1px 2px rgba(22, 38, 58, 0.06), 0 1px 3px rgba(22, 38, 58, 0.08);
+    --mt-shadow: 0 8px 28px rgba(22, 38, 58, 0.08);
+  
+    --mt-font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  body {
+    font-family: var(--mt-font);
+    color: var(--mt-ink);
+  }
+  
+  .btn {
+    border-radius: var(--mt-radius-sm);
+    font-weight: 600;
+  }
+  
+  .btn-primary {
+    --bs-btn-bg: var(--mt-primary);
+    --bs-btn-border-color: var(--mt-primary);
+    --bs-btn-hover-bg: var(--mt-primary-dark);
+    --bs-btn-hover-border-color: var(--mt-primary-dark);
+    --bs-btn-active-bg: var(--mt-primary-dark);
+    --bs-btn-active-border-color: var(--mt-primary-dark);
+    --bs-btn-disabled-bg: var(--mt-primary);
+    --bs-btn-disabled-border-color: var(--mt-primary);
+    --bs-btn-focus-shadow-rgb: 29, 98, 200;
+  }
+  
+  .btn-outline-primary {
+    --bs-btn-color: var(--mt-primary);
+    --bs-btn-border-color: var(--mt-primary);
+    --bs-btn-hover-bg: var(--mt-primary);
+    --bs-btn-hover-border-color: var(--mt-primary);
+    --bs-btn-active-bg: var(--mt-primary-dark);
+    --bs-btn-active-border-color: var(--mt-primary-dark);
+    --bs-btn-focus-shadow-rgb: 29, 98, 200;
+  }
+  
+  .btn-link {
+    --bs-btn-color: var(--mt-primary);
+    --bs-btn-hover-color: var(--mt-primary-dark);
+    text-decoration: none;
+  }
+  
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+  
+  .form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--mt-ink);
+  }
+  
+  .form-control,
+  .form-select {
+    border-color: var(--mt-border);
+    border-radius: var(--mt-radius-sm);
+  }
+  
+  .form-control:focus,
+  .form-select:focus {
+    border-color: var(--mt-primary);
+    box-shadow: 0 0 0 0.2rem rgba(29, 98, 200, 0.15);
+  }
+  
+  .form-text {
+    color: var(--mt-muted);
+  }
+  
+  .alert {
+    border-radius: var(--mt-radius-sm);
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }

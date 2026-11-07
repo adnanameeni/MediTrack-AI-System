@@ -1,0 +1,313 @@
+#assistant-launcher {
+    position: fixed;
+    right: 26px;
+    bottom: 25px;
+    z-index: 9998;
+    width: 62px;
+    height: 62px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1d62c8, #0f9d94);
+    color: white;
+    box-shadow: 0 8px 25px rgba(29, 98, 200, 0.3);
+    cursor: pointer;
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+#assistant-launcher:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(29, 98, 200, .4);
+}
+
+#assistant-launcher svg {
+    width: 27px;
+    height: 27px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#assistant-greeting {
+    position: fixed;
+    right: 101px;
+    bottom: 37px;
+    z-index: 9998;
+    padding: 11px 15px;
+    border: 1px solid #e2eaf3;
+    border-radius: 12px;
+    background: white;
+    color: #24364b;
+    font-size: 12px;
+    font-weight: 650;
+    box-shadow: 0 5px 20px rgba(25, 55, 90, .1);
+    animation: assistant-greeting-in .3s ease both;
+}
+
+#assistant-greeting::after {
+    position: absolute;
+    top: 50%;
+    right: -6px;
+    width: 11px;
+    height: 11px;
+    content: "";
+    transform: translateY(-50%) rotate(45deg);
+    border-top: 1px solid #e2eaf3;
+    border-right: 1px solid #e2eaf3;
+    background: white;
+}
+
+#assistant-panel {
+    position: fixed;
+    right: 26px;
+    bottom: 103px;
+    z-index: 9999;
+    display: flex;
+    width: min(410px, calc(100vw - 30px));
+    height: min(590px, calc(100vh - 135px));
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #e0e8f1;
+    border-radius: 18px;
+    background: white;
+    box-shadow: 0 16px 55px rgba(22, 38, 58, .2);
+    animation: assistant-panel-in .2s ease both;
+}
+
+#assistant-panel[hidden],
+#assistant-launcher[hidden],
+#assistant-greeting[hidden] {
+    display: none !important;
+}
+
+.assistant-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 17px;
+    background: linear-gradient(110deg, #1d62c8, #147f9d);
+    color: white;
+}
+
+.assistant-header-main {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.assistant-header-icon {
+    display: grid;
+    width: 38px;
+    height: 38px;
+    flex: none;
+    place-items: center;
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 11px;
+    background: rgba(255,255,255,.15);
+}
+
+.assistant-header-icon svg {
+    width: 21px;
+    height: 21px;
+    fill: none;
+    stroke: white;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.assistant-header h2 {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 750;
+}
+
+.assistant-header p {
+    margin: 4px 0 0;
+    color: rgba(255,255,255,.8);
+    font-size: 10px;
+}
+
+.assistant-close {
+    display: grid;
+    width: 31px;
+    height: 31px;
+    place-items: center;
+    border: 0;
+    border-radius: 8px;
+    background: rgba(255,255,255,.13);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.assistant-close:hover {
+    background: rgba(255,255,255,.25);
+}
+
+.assistant-toolbar {
+    display: flex;
+    gap: 7px;
+    padding: 10px 12px;
+    border-bottom: 1px solid #edf1f5;
+    background: #fbfcfe;
+}
+
+.assistant-toolbar select {
+    min-width: 0;
+    flex: 1;
+    font-size: 10px;
+}
+
+.assistant-toolbar button {
+    flex: none;
+    font-size: 10px;
+}
+
+.assistant-disclaimer {
+    margin: 11px 12px 0;
+    padding: 9px 10px;
+    border: 1px solid #e5edf7;
+    border-radius: 9px;
+    background: #f5f9fe;
+    color: #6c7c90;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+#assistant-messages {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    padding: 15px 13px;
+    background: #ffffff;
+}
+
+.assistant-empty {
+    margin: auto;
+    max-width: 240px;
+    color: #8493a5;
+    font-size: 11px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.assistant-message {
+    max-width: 86%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.assistant-message.user {
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+    background: #1d62c8;
+    color: white;
+}
+
+.assistant-message.bot {
+    align-self: flex-start;
+    border: 1px solid #e8edf3;
+    border-bottom-left-radius: 4px;
+    background: #f5f7fa;
+    color: #34465c;
+}
+
+.assistant-error {
+    margin: 0 12px 9px;
+    color: #c34b4b;
+    font-size: 10px;
+}
+
+.assistant-form {
+    display: flex;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid #edf1f5;
+    background: white;
+}
+
+.assistant-form input {
+    min-width: 0;
+    flex: 1;
+    min-height: 42px;
+    padding: 10px 12px;
+    border: 1px solid #dfe7ef;
+    border-radius: 10px;
+    outline: none;
+    font-size: 11px;
+}
+
+.assistant-form input:focus {
+    border-color: #8ab4ed;
+    box-shadow: 0 0 0 3px rgba(29,98,200,.08);
+}
+
+.assistant-form button {
+    width: 43px;
+    flex: none;
+    border: 0;
+    border-radius: 10px;
+    background: #1d62c8;
+    color: white;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.assistant-form button:disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+@keyframes assistant-panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes assistant-greeting-in {
+    from {
+        opacity: 0;
+        transform: translateX(7px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 480px) {
+    #assistant-panel {
+        right: 10px;
+        bottom: 85px;
+        width: calc(100vw - 20px);
+        height: min(600px, calc(100vh - 105px));
+    }
+
+    #assistant-launcher {
+        right: 17px;
+        bottom: 16px;
+        width: 56px;
+        height: 56px;
+    }
+
+    #assistant-greeting {
+        right: 85px;
+        bottom: 29px;
+    }
+}

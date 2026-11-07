@@ -1,0 +1,285 @@
+
+/* Login and signup pages. Uses variables from theme.css. */
+
+.auth-body {
+  min-height: 100vh;
+  background: var(--mt-bg);
+}
+
+.auth-layout {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(340px, 5fr) 6fr;
+}
+
+/* ---- Brand panel (left) ---- */
+
+.auth-aside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 3rem;
+  color: #fff;
+  background: linear-gradient(
+      165deg,
+      var(--mt-primary-dark) 0%,
+      var(--mt-primary) 100%
+  );
+}
+
+.auth-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.auth-aside .auth-brand {
+  --bm-bg: #fff;
+  --bm-fg: var(--mt-primary);
+}
+
+.brand-mark {
+  width: 36px;
+  height: 36px;
+  flex: none;
+}
+
+.brand-mark .bm-bg {
+  fill: var(--bm-bg, var(--mt-primary));
+}
+
+.brand-mark .bm-line {
+  fill: none;
+  stroke: var(--bm-fg, #fff);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.auth-aside-title {
+  font-size: 2rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.75rem;
+}
+
+.auth-aside-text {
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 32rem;
+  margin-bottom: 2rem;
+}
+
+.auth-features {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1.1rem;
+}
+
+.auth-features li {
+  display: flex;
+  gap: 0.9rem;
+  align-items: flex-start;
+}
+
+.auth-feature-icon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.auth-feature-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.auth-features strong {
+  display: block;
+  font-weight: 600;
+}
+
+.auth-features span {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+/* Developer credit in left panel */
+
+.auth-aside-foot {
+  margin: 0;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.8;
+}
+
+.auth-aside-foot a {
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-aside-foot a:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* ---- Form panel (right) ---- */
+
+.auth-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.25rem;
+}
+
+.auth-panel {
+  width: 100%;
+  max-width: 430px;
+  animation: auth-fade-up 0.35s ease-out both;
+}
+
+@keyframes auth-fade-up {
+  from {
+      opacity: 0;
+      transform: translateY(8px);
+  }
+
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}
+
+.auth-brand-mobile {
+  display: none;
+  margin-bottom: 1.25rem;
+  color: var(--mt-ink);
+}
+
+.auth-card {
+  padding: 2rem;
+  background: var(--mt-surface);
+  border: 1px solid var(--mt-border);
+  border-radius: var(--mt-radius-lg);
+  box-shadow: var(--mt-shadow);
+}
+
+.auth-title {
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.25rem;
+}
+
+.auth-subtitle {
+  color: var(--mt-muted);
+  margin-bottom: 1.5rem;
+}
+
+.auth-card .form-control {
+  padding: 0.65rem 0.85rem;
+}
+
+.auth-card .btn-primary {
+  padding: 0.7rem 1rem;
+  margin-top: 0.5rem;
+}
+
+.password-field {
+  position: relative;
+}
+
+.password-field .form-control {
+  padding-right: 4.5rem;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  border: 0;
+  background: none;
+  padding: 0.25rem 0.5rem;
+  color: var(--mt-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border-radius: var(--mt-radius-sm);
+}
+
+.password-toggle:hover {
+  background: var(--mt-primary-soft);
+}
+
+.auth-switch {
+  text-align: center;
+  margin: 1.25rem 0 0;
+  font-size: 0.9rem;
+  color: var(--mt-muted);
+}
+
+/* Developer credit below form */
+
+.auth-credit {
+  margin: 1.5rem 0 0;
+  text-align: center;
+  color: var(--mt-muted);
+  font-size: 0.8rem;
+  line-height: 1.8;
+}
+
+.auth-credit a {
+  color: var(--mt-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-credit a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---- Small screens ---- */
+
+@media (max-width: 991.98px) {
+  .auth-layout {
+      grid-template-columns: 1fr;
+  }
+
+  .auth-aside {
+      display: none;
+  }
+
+  .auth-brand-mobile {
+      display: flex;
+  }
+
+  .auth-card {
+      padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-main {
+      padding: 1.25rem 1rem;
+  }
+
+  .auth-credit {
+      font-size: 0.76rem;
+  }
+}

@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.core.security import decode_access_token
 from app.database import get_db
 from app.models import User
+from app.models.user import ROLE_ADMIN
 
 # auto_error=False lets us return our own single, generic 401 message.
 bearer_scheme = HTTPBearer(auto_error=False)
@@ -35,3 +36,17 @@ def get_current_user(
         raise _unauthorized()
 
     return user
+
+
+def require_admin(current_user: User = Depends(get_current_user)) -> User:
+    """Return the logged-in user only if they are an administrator.
+
+    The role is read from the database on every request, so a role change
+    takes effect immediately, even for a token that was issued earlier.
+    """
+    if current_user.role != ROLE_ADMIN:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Administrator access required",
+        )
+    return current_user

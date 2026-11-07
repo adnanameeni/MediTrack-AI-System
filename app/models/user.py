@@ -1,9 +1,13 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import Boolean, DateTime, String, func, true
+from sqlalchemy import Boolean, CheckConstraint, DateTime, String, func, true
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.base import Base
+
+ROLE_USER = "user"
+ROLE_ADMIN = "admin"
+ROLES = (ROLE_USER, ROLE_ADMIN)
 
 
 def _utcnow() -> datetime:
@@ -12,6 +16,9 @@ def _utcnow() -> datetime:
 
 class User(Base):
     __tablename__ = "users"
+    __table_args__ = (
+        CheckConstraint("role IN ('user', 'admin')", name="ck_users_role"),
+    )
 
     id: Mapped[int] = mapped_column(primary_key=True)
     full_name: Mapped[str] = mapped_column(String(200), nullable=False)
@@ -28,6 +35,12 @@ class User(Base):
         nullable=False,
         default=True,
         server_default=true(),
+    )
+    role: Mapped[str] = mapped_column(
+        String(20),
+        nullable=False,
+        default=ROLE_USER,
+        server_default=ROLE_USER,
     )
 
     glucose_readings: Mapped[list["GlucoseReading"]] = relationship(

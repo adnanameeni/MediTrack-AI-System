@@ -1,0 +1,355 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f4f8fc">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin | MediTrack AI</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231d62c8'/%3E%3Cpath d='M5 17h5l3-7 5 13 3-6h6' fill='none' stroke='%23fff' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/theme.css">
+    <link rel="stylesheet" href="/static/css/admin.css">
+</head>
+<body class="ad-body">
+
+    <!-- Hidden until the server confirms that this account is an administrator. -->
+    <div id="ad-loading" class="ad-loading" role="status">
+        <span class="ad-spinner" aria-hidden="true"></span>
+        <span>Checking administrator access...</span>
+    </div>
+
+    <div class="ad-layout" id="ad-app" hidden>
+
+        <!-- Sidebar -->
+        <aside class="ad-sidebar" id="ad-sidebar" aria-label="Administrator navigation">
+            <a href="/admin" class="ad-brand">
+                <span class="ad-brand-icon">
+                    <svg viewBox="0 0 48 48" aria-hidden="true">
+                        <rect x="2" y="2" width="44" height="44" rx="14" fill="currentColor"/>
+                        <path d="M24 12v24M12 24h24" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <span>MediTrack<span class="ad-brand-ai"> AI</span></span>
+            </a>
+            <span class="ad-badge-admin">Administration</span>
+
+            <div class="ad-nav-label">MANAGE</div>
+            <nav class="ad-nav">
+                <button type="button" class="ad-nav-link active" data-view="overview">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/>
+                        <rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>
+                    </svg>
+                    <span>Overview</span>
+                </button>
+                <button type="button" class="ad-nav-link" data-view="users">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/>
+                        <path d="M16 4.7a3.5 3.5 0 0 1 0 6.6M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/>
+                    </svg>
+                    <span>Users and roles</span>
+                </button>
+                <button type="button" class="ad-nav-link" data-view="audit">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/>
+                        <path d="M14 2v6h6M8 13h8M8 17h5"/>
+                    </svg>
+                    <span>Audit log</span>
+                </button>
+                <button type="button" class="ad-nav-link" data-view="profile">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/>
+                    </svg>
+                    <span>My profile</span>
+                </button>
+            </nav>
+
+            <div class="ad-sidebar-bottom">
+                <a href="/dashboard" class="ad-nav-link ad-nav-anchor">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M3 12 12 4l9 8"/><path d="M5 10v10h14V10"/>
+                    </svg>
+                    <span>My health dashboard</span>
+                </a>
+
+                <!-- About the developer -->
+                <a href="/about" class="ad-nav-link ad-nav-anchor">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M5 21a7 7 0 0 1 14 0"/>
+                    </svg>
+                    <span>About the developer</span>
+                </a>
+
+                <p class="ad-sidebar-note">Administrators see counts only. Health readings and chat messages are never shown here.</p>
+            </div>
+        </aside>
+        <div class="ad-backdrop" id="ad-backdrop"></div>
+
+        <!-- Main -->
+        <div class="ad-main">
+            <header class="ad-topbar">
+                <div class="ad-topbar-left">
+                    <button type="button" class="ad-menu-button" id="ad-menu-button" aria-label="Open menu" aria-controls="ad-sidebar" aria-expanded="false">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                    <h1 class="ad-page-title" id="ad-page-title">Overview</h1>
+                </div>
+                <div class="ad-topbar-right">
+                    <div class="ad-identity">
+                        <div class="ad-avatar" id="ad-avatar" aria-hidden="true">AD</div>
+                        <div class="ad-identity-text">
+                            <span class="ad-identity-name" id="ad-name">Loading...</span>
+                            <span class="ad-identity-email" id="ad-email"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="ad-logout" id="ad-logout">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/>
+                        </svg>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </header>
+
+            <main class="ad-content">
+                <div id="ad-message" class="ad-message" role="status" aria-live="polite"></div>
+
+                <!-- Overview -->
+                <section class="ad-view" id="view-overview">
+                    <div class="ad-intro">
+                        <div>
+                            <h2>Welcome back, <span id="ad-welcome-name">administrator</span></h2>
+                            <p>A summary of MediTrack AI. Only totals are shown, never anyone's private records.</p>
+                        </div>
+                    </div>
+
+                    <div class="ad-stat-grid">
+                        <article class="ad-stat">
+                            <span class="ad-stat-icon tone-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.7a3.5 3.5 0 0 1 0 6.6M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/></svg></span>
+                            <div><span class="ad-stat-label">Total users</span><strong class="ad-stat-value" id="stat-total">-</strong></div>
+                        </article>
+                        <article class="ad-stat">
+                            <span class="ad-stat-icon tone-violet" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8 8 9 4.6-1 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>
+                            <div><span class="ad-stat-label">Administrators</span><strong class="ad-stat-value" id="stat-admins">-</strong></div>
+                        </article>
+                        <article class="ad-stat">
+                            <span class="ad-stat-icon tone-teal" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></span>
+                            <div><span class="ad-stat-label">Normal users</span><strong class="ad-stat-value" id="stat-normal">-</strong></div>
+                        </article>
+                        <article class="ad-stat">
+                            <span class="ad-stat-icon tone-red" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3s7 7.2 7 12a7 7 0 0 1-14 0c0-4.8 7-12 7-12Z"/></svg></span>
+                            <div><span class="ad-stat-label">Glucose readings</span><strong class="ad-stat-value" id="stat-glucose">-</strong></div>
+                        </article>
+                        <article class="ad-stat">
+                            <span class="ad-stat-icon tone-amber" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h4l2.5-6 5 12 2.5-6h4"/></svg></span>
+                            <div><span class="ad-stat-label">Blood pressure readings</span><strong class="ad-stat-value" id="stat-bp">-</strong></div>
+                        </article>
+                        <article class="ad-stat">
+                            <span class="ad-stat-icon tone-blue" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></svg></span>
+                            <div><span class="ad-stat-label">AI conversations</span><strong class="ad-stat-value" id="stat-chats">-</strong></div>
+                        </article>
+                    </div>
+
+                    <div class="ad-two-col">
+                        <section class="ad-panel">
+                            <div class="ad-panel-head">
+                                <h3>New registrations</h3>
+                                <label class="ad-inline-select">
+                                    <span class="visually-hidden">Time range</span>
+                                    <select id="trend-days" class="form-select form-select-sm">
+                                        <option value="7">Last 7 days</option>
+                                        <option value="30" selected>Last 30 days</option>
+                                        <option value="90">Last 90 days</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <p class="ad-panel-sub"><strong id="trend-total">0</strong> new accounts in this period</p>
+                            <div id="trend-chart" class="ad-chart" role="img" aria-label="Bar chart of new registrations per day"></div>
+                        </section>
+
+                        <section class="ad-panel">
+                            <div class="ad-panel-head"><h3>Account status</h3></div>
+                            <ul class="ad-facts">
+                                <li><span>Active accounts</span><strong id="fact-active">-</strong></li>
+                                <li><span>Deactivated accounts</span><strong id="fact-inactive">-</strong></li>
+                                <li><span>Active administrators</span><strong id="fact-active-admins">-</strong></li>
+                                <li><span>Registered in last 24 hours</span><strong id="fact-24h">-</strong></li>
+                                <li><span>Registered in last 7 days</span><strong id="fact-7d">-</strong></li>
+                                <li><span>Registered in last 30 days</span><strong id="fact-30d">-</strong></li>
+                                <li><span>Latest registration</span><strong id="fact-latest">-</strong></li>
+                            </ul>
+                        </section>
+                    </div>
+                </section>
+
+                <!-- Users -->
+                <section class="ad-view" id="view-users" hidden>
+                    <section class="ad-panel">
+                        <div class="ad-toolbar">
+                            <div class="ad-search">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                                <label for="user-search" class="visually-hidden">Search users</label>
+                                <input id="user-search" type="search" class="form-control" maxlength="100" placeholder="Search by name or email" autocomplete="off">
+                            </div>
+                            <label class="ad-inline-select">
+                                <span class="visually-hidden">Filter by role</span>
+                                <select id="user-role" class="form-select">
+                                    <option value="">All roles</option>
+                                    <option value="admin">Administrators</option>
+                                    <option value="user">Normal users</option>
+                                </select>
+                            </label>
+                            <button type="button" id="users-refresh" class="btn btn-outline-primary">Refresh</button>
+                        </div>
+
+                        <div class="ad-table-wrap">
+                            <table class="ad-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Joined</th>
+                                        <th scope="col" class="ad-th-action"><span class="visually-hidden">Actions</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-body"></tbody>
+                            </table>
+                        </div>
+                        <div id="users-empty" class="ad-empty" hidden>No users match your search.</div>
+
+                        <div class="ad-pager">
+                            <span id="users-summary" class="ad-pager-text"></span>
+                            <div class="ad-pager-buttons">
+                                <button type="button" id="users-prev" class="btn btn-sm btn-outline-primary">Previous</button>
+                                <button type="button" id="users-next" class="btn btn-sm btn-outline-primary">Next</button>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+
+                <!-- Audit log -->
+                <section class="ad-view" id="view-audit" hidden>
+                    <section class="ad-panel">
+                        <div class="ad-toolbar">
+                            <label class="ad-inline-select">
+                                <span class="visually-hidden">Filter by action</span>
+                                <select id="audit-action" class="form-select">
+                                    <option value="">All actions</option>
+                                    <option value="admin_promoted">Promoted to administrator</option>
+                                    <option value="admin_demoted">Administrator removed</option>
+                                    <option value="role_changed">Role changed (command line)</option>
+                                    <option value="user_activated">Account activated</option>
+                                    <option value="user_deactivated">Account deactivated</option>
+                                </select>
+                            </label>
+                            <button type="button" id="audit-refresh" class="btn btn-outline-primary">Refresh</button>
+                        </div>
+
+                        <div class="ad-table-wrap">
+                            <table class="ad-table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">When</th>
+                                        <th scope="col">Action</th>
+                                        <th scope="col">By</th>
+                                        <th scope="col">Affected user</th>
+                                        <th scope="col">Detail</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="audit-body"></tbody>
+                            </table>
+                        </div>
+                        <div id="audit-empty" class="ad-empty" hidden>No administrator actions have been recorded yet.</div>
+
+                        <div class="ad-pager">
+                            <span id="audit-summary" class="ad-pager-text"></span>
+                            <div class="ad-pager-buttons">
+                                <button type="button" id="audit-prev" class="btn btn-sm btn-outline-primary">Previous</button>
+                                <button type="button" id="audit-next" class="btn btn-sm btn-outline-primary">Next</button>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+
+                <!-- Profile -->
+                <section class="ad-view" id="view-profile" hidden>
+                    <section class="ad-panel ad-profile">
+                        <div class="ad-profile-head">
+                            <div class="ad-avatar ad-avatar-lg" id="profile-avatar" aria-hidden="true">AD</div>
+                            <div>
+                                <h2 id="profile-name">-</h2>
+                                <span class="ad-chip chip-admin">Administrator</span>
+                            </div>
+                        </div>
+                        <dl class="ad-profile-list">
+                            <div><dt>Email</dt><dd id="profile-email">-</dd></div>
+                            <div><dt>Role</dt><dd id="profile-role">-</dd></div>
+                            <div><dt>Account status</dt><dd id="profile-status">-</dd></div>
+                            <div><dt>Member since</dt><dd id="profile-since">-</dd></div>
+                            <div><dt>User ID</dt><dd id="profile-id">-</dd></div>
+                        </dl>
+                        <div class="ad-profile-actions">
+                            <a href="/dashboard" class="btn btn-outline-primary">Open my health dashboard</a>
+                            <button type="button" id="profile-logout" class="btn btn-primary">Log out</button>
+                        </div>
+                    </section>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- User details dialog -->
+    <dialog id="user-dialog" class="ad-dialog" aria-labelledby="dialog-title">
+        <div class="ad-dialog-head">
+            <h2 id="dialog-title">User details</h2>
+            <button type="button" class="ad-dialog-close" id="dialog-close" aria-label="Close">&times;</button>
+        </div>
+        <div class="ad-dialog-body">
+            <div class="ad-dialog-person">
+                <div class="ad-avatar ad-avatar-lg" id="dialog-avatar" aria-hidden="true">U</div>
+                <div class="ad-dialog-person-text">
+                    <strong id="dialog-name">-</strong>
+                    <span id="dialog-email">-</span>
+                </div>
+            </div>
+            <div class="ad-chip-row">
+                <span class="ad-chip" id="dialog-role">-</span>
+                <span class="ad-chip" id="dialog-status">-</span>
+            </div>
+            <dl class="ad-profile-list">
+                <div><dt>Joined</dt><dd id="dialog-joined">-</dd></div>
+                <div><dt>Glucose readings</dt><dd id="dialog-glucose">-</dd></div>
+                <div><dt>Blood pressure readings</dt><dd id="dialog-bp">-</dd></div>
+                <div><dt>AI conversations</dt><dd id="dialog-chats">-</dd></div>
+            </dl>
+            <p class="ad-privacy-note">Only counts are shown. Readings and chat messages are private to the user.</p>
+            <div id="dialog-message" class="ad-dialog-message" role="alert"></div>
+        </div>
+        <div class="ad-dialog-foot">
+            <button type="button" id="dialog-role-button" class="btn btn-primary">Change role</button>
+            <button type="button" id="dialog-status-button" class="btn btn-outline-danger">Deactivate</button>
+        </div>
+    </dialog>
+
+    <!-- Confirmation dialog -->
+    <dialog id="confirm-dialog" class="ad-dialog ad-dialog-small" aria-labelledby="confirm-title">
+        <div class="ad-dialog-head">
+            <h2 id="confirm-title">Please confirm</h2>
+        </div>
+        <div class="ad-dialog-body">
+            <p id="confirm-text" class="mb-0"></p>
+        </div>
+        <div class="ad-dialog-foot">
+            <button type="button" id="confirm-cancel" class="btn btn-outline-secondary">Cancel</button>
+            <button type="button" id="confirm-ok" class="btn btn-primary">Confirm</button>
+        </div>
+    </dialog>
+
+    <script src="/static/js/admin.js"></script>
+</body>
+</html>
